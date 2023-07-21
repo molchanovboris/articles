@@ -8,7 +8,6 @@ import styles from "./Article.module.scss";
 export const Article = () => {
 
     const { id } = useParams();
-    console.log('ref', id)
 
     const data: TArticle[] = ARTICLE_LIST;
     const aticleData: TArticle | undefined = data.find((item) => item.id === id?.toString());

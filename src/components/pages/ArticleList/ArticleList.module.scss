@@ -1,15 +1,5 @@
 .articleListContainer {
     width: 100%;
-    .articleListHeader {
-        margin-bottom: 40px;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-
-        > div {
-            margin: 0 10px;
-        }
-    }
 
     .articleList {
         width: 100%;
@@ -17,5 +7,9 @@
         grid-template-columns: repeat(3, 1fr);
         row-gap: 28px;
         column-gap: 54px;
+    }
+
+    h2 {
+        color: black;
     }
 }

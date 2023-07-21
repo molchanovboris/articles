@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Button, Card, Input, message } from 'antd';
+import { Button, Input, message } from 'antd';
 import { SelectItem } from "../../atoms/SelectItem";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../lib/store/hooks";
 import { removeArticle } from "../../../lib/store/articleSlice";
 import styles from "./ArticleList.module.scss";
+import { ArticleCard } from "../../organisms";
+import { ArticlesFilterHeader } from "../../organisms/ArticlesFilterHeader/ArticlesFilterHeader";
 
 export type TArticle = {
     id: string;
@@ -116,60 +118,31 @@ export const ArticleList = () => {
         messageApi.success('Статья удалена успешно');
     }
 
-
     return (
         <>
             {contextHolder}
-            <>
-
-            </>
             <div className={styles.articleListContainer}>
-                <div className={styles.articleListHeader}>
-                    <Search placeholder="input search text" allowClear onSearch={onSearch} style={{ width: 200 }} />
+                <ArticlesFilterHeader
+                    onSearch={onSearch}
+                    handleChangeDate={handleChangeDate}
+                    dateFilterOptions={dateFilterOptions}
+                    handleChangeCategory={handleChangeCategory}
+                    categoryFilterOptions={categoryFilterOptions}
+                    handleChangeAuthor={handleChangeAuthor}
+                    authorFilterOptions={authorFilterOptions}
+                />
+                {filteredData.length > 0 ? (
+                    <div className={styles.articleList}>
 
-                    <SelectItem
-                        onChange={handleChangeDate}
-                        options={dateFilterOptions}
-                    />
-                    <SelectItem
-                        onChange={handleChangeCategory}
-                        options={categoryFilterOptions}
-                    />
-                    <SelectItem
-                        onChange={handleChangeAuthor}
-                        options={authorFilterOptions}
-                    />
-                    <Link to="/add">
-                        <Button type="primary" size={"large"}>
-                            Добавить статью
-                        </Button>
-                    </Link>
-                </div>
-                <div className={styles.articleList}>
-                    {filteredData.map((item) => (
-                        <div key={item.id}>
-                            <Card
-                                title={item.title}
-                                extra={<Link to={`/article/${item.id}`}>More</Link>}
-                                style={{ width: 300, marginBottom: 10 }}
-                                actions={[
-                                    <Button type="link" danger onClick={() => onDelete(item.id)}>
-                                        Удалить
-                                    </Button>,
-                                    <Link to={`/edit/${item.id}`}>
-                                        <Button type="link">
-                                            Редактировать
-                                        </Button>
-                                    </Link>,
-                                ]}
-                            >
-                                <p>{item.authorName}</p>
-                                <p>{item.caregory}</p>
-                                <p>{item.date}</p>
-                            </Card>
-                        </div>
-                    ))}
-                </div>
+                        {filteredData.map((item) => (
+                            <div key={item.id}>
+                                <ArticleCard item={item} onDelete={onDelete} />
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <h2>Ничего не найдено</h2>
+                )}
             </div>
         </>
     )
