@@ -1,0 +1,11 @@
+.articleForm {
+    padding: 40px 40px 40px 10px;
+    width: 800px;
+    background-color: white;
+    position: relative;
+
+    > a {
+        position: absolute;
+        left: 50px;
+    }
+}
